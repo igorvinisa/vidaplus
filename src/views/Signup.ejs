@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Cadastro</title>
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Tela de Cadastro</h1>
+    <div class="signup-box">
+        <form action="/signup" method="POST">
+            <input type="text" name="nome" placeholder="Nome Completo" required pattern="[A-Za-zÀ-ÿ\s]+">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
 </body>
 </html>
