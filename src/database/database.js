@@ -1,11 +1,11 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const database = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    port: 3306,
-    password: 'admin',
-    database: 'vidaplusdb'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 module.exports = database;

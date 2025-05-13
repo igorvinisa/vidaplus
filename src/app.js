@@ -19,6 +19,5 @@ app.use(homeRouter)
 app.use(loginRouter)
 app.use(signupRouter)
 
-app.listen(3000, ()=>{
-    console.log("executando na porta 3000")
-})
+
+module.exports = app;
