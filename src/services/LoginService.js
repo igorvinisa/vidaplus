@@ -1,22 +1,21 @@
-const loginModel = require('../models/LoginModel');
+const LoginModel = require('../models/LoginModel');
 
-const LoginService = { 
-    async login(userData) {
-        const { email, password } = userData;
-
-        const user = await loginModel.findByEmail(email);
+const LoginService = {
+    async login(email, password) {
+        const user = await LoginModel.findByEmail(email);
+        
         if (!user) {
-            return { status: 401, message: "E-mail ou senha inválidos." };
+            throw new Error('Usuário não encontrado');
         }
 
-        const isPasswordValid = await loginModel.verifyPassword(password, user.password);
-        if (!isPasswordValid) {
-            return { status: 401, message: "E-mail ou senha inválidos." };
+        const isValidPassword = await LoginModel.verifyPassword(password, user.password);
+        
+        if (!isValidPassword) {
+            throw new Error('Senha inválida');
         }
 
-        return { status: 200, message: "Login realizado com sucesso!", user };
+        return user;
     }
-
 };
 
 module.exports = LoginService;

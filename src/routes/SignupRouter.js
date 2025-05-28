@@ -7,6 +7,6 @@ router.get('/signup', function(req, res){
     res.render('Signup.ejs')
 })
 
-router.post('/signup', signupMiddleware.validateSignup, signupController.RegisterUser)
+router.post('/signup', signupMiddleware.validateSignup, signupController.registerUser)
 
-module.exports = router
+module.exports = router;

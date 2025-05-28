@@ -10,12 +10,48 @@
     <div class="login-box">
         <div class="logo">
         </div>
-        <form action="/login" method="POST">
+        <form id="loginForm" action="/login" method="POST">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Senha" required>
             <button type="submit">Login</button>
+            <div id="errorMessage" class="error-message"></div>
         </form>
         <a href="/signup" class="signup">Registrar</a>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: formData.get('email'),
+                        password: formData.get('password')
+                    })
+                });
+
+                if (response.status === 200) {
+                    window.location.href = '/home';
+                    return;
+                }
+
+                const result = await response.json();
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = result.message;
+                errorDiv.style.display = 'block';
+
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = 'Erro ao conectar ao servidor';
+            }
+        });
+    </script>
 </body>
 </html>

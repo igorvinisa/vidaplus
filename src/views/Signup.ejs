@@ -8,12 +8,67 @@
 </head>
 <body>
     <div class="signup-box">
-        <form action="/signup" method="POST">
+        <form id="signupForm" action="/signup" method="POST">
             <input type="text" name="nome" placeholder="Nome Completo" required pattern="[A-Za-zÀ-ÿ\s]+">
             <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="cpf" placeholder="CPF (somente números)" required pattern="\d{11}">   
+            <input type="date" name="data_nascimento" placeholder="Data de Nascimento" required>
+            <input type="text" name="rua" placeholder="Rua" required>
+            <input type="text" name="bairro" placeholder="Bairro" required>
+            <input type="text" name="numero" placeholder="numero" required>
+            <input type="text" name="cidade" placeholder="Cidade" required>
+            <input type="text" name="estado" placeholder="Estado" required>
+            <input type="text" name="cep" placeholder="CEP (somente números)" required pattern="\d{8}">
+            <input type="text" name="telefone" placeholder="Telefone (somente números)" required pattern="\d{10,11}">
+            <input type="text" name="nome_mae" placeholder="Nome da Mãe" required pattern="[A-Za-zÀ-ÿ\s]+">
             <input type="password" name="password" placeholder="Senha" required>
             <button type="submit">Registrar</button>
         </form>
     </div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+          const existingMessage = document.querySelector('.success-message, .error-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+
+            const result = await response.json();
+
+            if (response.status === 201) {                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.textContent = 'Cadastro realizado com sucesso!';
+                
+                const signupBox = document.querySelector('.signup-box');
+                signupBox.insertBefore(successMessage, signupBox.firstChild);                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = error.message || 'Erro ao realizar cadastro';
+            
+            const signupBox = document.querySelector('.signup-box');
+            signupBox.insertBefore(errorMessage, signupBox.firstChild);            setTimeout(() => {
+                errorMessage.remove();
+            }, 3000);
+        }
+    });
+</script>
 </body>
 </html>

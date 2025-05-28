@@ -2,16 +2,18 @@ const signupModel = require('../models/SignupModel');
 
 const SignupService = {
     async register(userData) {
-        const { nome, email, password } = userData;
+        const { nome, email, password, cpf, telefone, nome_mae, data_nascimento } = userData;
 
-        const existingUser = await signupModel.findByEmail(email);
+        const existingUser = await signupModel.findUserByEmail(email);
         if (existingUser) {
-            return { status: 400, message: "E-mail já cadastrado." };
+            throw new Error('E-mail já cadastrado');
         }
+        const newPersonId = await signupModel.createPerson(nome, cpf, telefone, nome_mae, data_nascimento);
 
-        await signupModel.createUser(nome, email, password);
-        return { status: 201, message: "Cadastro realizado com sucesso!" };
+        console.log(newPersonId);
+        const newAddress = await  signupModel.createAddress(newPersonId, userData.cidade, userData.bairro, userData.rua, userData.numero, userData.estado, userData.cep);   
+        const newUser = await signupModel.createUser(newPersonId, userData.nome, userData.email, userData.password);
     }
-}
+};
 
 module.exports = SignupService;
