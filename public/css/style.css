@@ -92,7 +92,10 @@ button:hover {
 }
 .titlehome-box {
     text-align:  left;
-    font-size: 40px;
+    font-size: 10px;
+    display : flex;
+    width: 100%;
+    flex-direction: row;
 }
 
 .success-message, .error-message {

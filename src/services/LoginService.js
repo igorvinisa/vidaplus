@@ -15,6 +15,18 @@ const LoginService = {
         }
 
         return user;
+    },
+    async verifyHiredUserAndValidated(usuario_id) {
+        const user = await LoginModel.getUserById(usuario_id);
+
+        if (user.funcionario && user.validado)
+            return true;
+        else
+            return false;
+    },
+    async getUserRedirectPath(usuario_id) {
+        const isHiredAndValidated = await this.verifyHiredUserAndValidated(usuario_id);
+        return isHiredAndValidated ? '/hiredhome' : '/home';
     }
 };
 

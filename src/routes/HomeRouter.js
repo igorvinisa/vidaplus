@@ -1,8 +1,9 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const homeController = require('../controllers/HomeController');
+const loginMiddleware = require('../middlewares/LoginMiddleware');
 
-router.get('/home', function(req, res){
-    res.render('Home.ejs')
-})
+router.get('/home', loginMiddleware.isAuthenticated, homeController.showHome);
 
-module.exports = router
+
+module.exports = router;

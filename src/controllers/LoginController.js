@@ -5,9 +5,11 @@ const LoginController = {
         try {
             const { email, password } = req.body;
             const user = await loginService.login(email, password);
-              req.session.userId = user.id;
+            req.session.userId = user.id;
             
-            return res.redirect('/home');
+            const redirectPath = await loginService.getUserRedirectPath(user.id);
+            return res.redirect(redirectPath);
+
         } catch (error) {
             if (error.message === 'Usuário não encontrado') {
                 return res.status(404).json({ message: error.message });

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const LoginModel = {
     findByEmail: async (email) => {
-        const [result] = await pool.query('SELECT * FROM user WHERE email = ?', [email]);
+        const [result] = await pool.query('SELECT * FROM usuario WHERE email = ?', [email]);
         return result.length > 0 ? result[0] : null;
     },
     
@@ -11,8 +11,8 @@ const LoginModel = {
         return await bcrypt.compare(password, hashedPassword);
     },
 
-    getUserById: async (id) => {
-        const [result] = await pool.query('SELECT * FROM user WHERE id = ?', [id]);
+    getUserById: async (usuario_id) => {
+        const [result] = await pool.query('SELECT * FROM usuario WHERE id = ?', [usuario_id]);
         return result.length > 0 ? result[0] : null;
     }
 };
