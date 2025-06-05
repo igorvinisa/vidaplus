@@ -16,6 +16,7 @@ const LoginService = {
 
         return user;
     },
+
     async verifyHiredUserAndValidated(usuario_id) {
         const user = await LoginModel.getUserById(usuario_id);
 
@@ -24,7 +25,19 @@ const LoginService = {
         else
             return false;
     },
+
+    async verifyUserAdmin(usuario_id) {
+        const user = await LoginModel.getUserById(usuario_id);
+        if (user.administrador) 
+            return true;
+        else
+            return false;
+    }, 
+
     async getUserRedirectPath(usuario_id) {
+        const isAdmin = await this.verifyUserAdmin(usuario_id);
+        if(isAdmin)
+            return '/adminhome';
         const isHiredAndValidated = await this.verifyHiredUserAndValidated(usuario_id);
         return isHiredAndValidated ? '/hiredhome' : '/home';
     }

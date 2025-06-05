@@ -90,13 +90,22 @@ button:hover {
     box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 
 }
+
 .titlehome-box {
-    text-align:  left;
+    text-align: center;
     font-size: 10px;
-    display : flex;
+    display: flex;
     width: 100%;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center; 
+    margin-bottom: 20px; 
 }
+
+.home-box p {
+    margin-bottom: 20px; 
+    text-align: center; 
+}
+
 
 .success-message, .error-message {
     color: white;
@@ -119,4 +128,12 @@ button:hover {
 
 .error-message {
     background-color: #f44336;
+}
+
+.button-home{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background-color: white;
+  width: 100%; 
 }
